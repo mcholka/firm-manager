@@ -1,0 +1,3 @@
+<jboss-web>
+    <security-domain>firm-manager</security-domain>
+</jboss-web>

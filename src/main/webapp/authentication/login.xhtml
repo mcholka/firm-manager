@@ -1,0 +1,21 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h:form>
+            <h1>Wpisz swój login i hasło aby się zalogować do panelu</h1>
+            <p:panel header="Panel logowania">
+                <p:growl id="growl" autoUpdate="true"/>
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="username" value="Login: "/>
+                    <p:inputText id="username" value="#{securityManager.username}"/>
+                    <p:outputLabel for="password" value="Hasło: "/>
+                    <p:password id="password" value="#{securityManager.password}" feedback="true"/>
+                    <p:commandButton value="Zaloguj się" actionListener="#{securityManager.login}"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
