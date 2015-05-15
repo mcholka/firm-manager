@@ -1,13 +1,13 @@
-<ui:composition template="/WEB-INF/templates/layout.xhtml"
+<ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
-        <p:panel header="Brak dostępu!">
-            <h:outputText value="Cześć #{securityManager.user},
-            niestety nie masz dostępu do tej strony, skontaktuj się z administratorem."/>
+        <p:panel header=":(">
+            <h:outputText value="Strona której szukasz nie istnieje..."/>
         </p:panel>
     </ui:define>
 </ui:composition>

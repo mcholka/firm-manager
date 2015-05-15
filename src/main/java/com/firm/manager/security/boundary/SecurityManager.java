@@ -50,7 +50,9 @@ public class SecurityManager {
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
         try {
             request.login(username, password);
-            externalContext.getSessionMap().put(SESSION_USER_PARAM, new SessionUser(username));
+            SessionUser sessionUser = new SessionUser(username);
+            externalContext.getSessionMap().put(SESSION_USER_PARAM, sessionUser);
+            facesUtil.putInfoMessage("Witaj " + sessionUser + "!");
             externalContext.redirect(forwardURL);
             logger.info("User logged in!");
         } catch (Exception e) {
@@ -63,8 +65,13 @@ public class SecurityManager {
         logger.info("Process logout");
         ExternalContext externalContext = facesUtil.externalContext();
         externalContext.invalidateSession();
+        facesUtil.putWarnMessage("Sesja wygasla");
         externalContext.redirect(externalContext.getRequestContextPath());
         logger.info("User logged out!");
+    }
+
+    public void active() {
+        facesUtil.putInfoMessage("Witaj ponownie :)");
     }
 
     public SessionUser getUser() {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form>
+        <p:growl id="growl" autoUpdate="true"/>
+        <p:menubar>
+            <p:submenu label="Menu Pracowników" rendered="#{securityManager.userLoggedIn}">
+                <p:menuitem value="List pracowników" icon="ui-icon-document" outcome="/admin/worker/index"/>
+                <p:menuitem value="List pracowników 2" icon="ui-icon-document" outcome="/admin/worker/list-worker"/>
+                <p:menuitem value="Dodaj pracownika" icon="ui-icon-plus" outcome="/admin/worker/add-worker"/>
+            </p:submenu>
+
+            <f:facet name="options">
+                <p:outputPanel rendered="#{!securityManager.userLoggedIn}">
+                    <p:button value="Zaloguj się" icon="ui-icon-power" outcome="/authentication/index"/>
+                </p:outputPanel>
+                <p:outputPanel rendered="#{securityManager.userLoggedIn}">
+                    <h:outputText style="margin-right:10px"
+                                  value="Zalogowany jako: #{securityManager.user}"/>
+                    <p:commandButton value="Wyloguj się" icon="ui-icon-close" actionListener="#{securityManager.logout}"
+                                     ajax="false"/>
+                </p:outputPanel>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+</ui:composition>

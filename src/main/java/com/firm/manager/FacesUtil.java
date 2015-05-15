@@ -15,14 +15,17 @@ public class FacesUtil {
     }
 
     public void putErrorMessage(String localizedMessage) {
+        externalContext().getFlash().setKeepMessages(true);
         facesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, localizedMessage, localizedMessage));
     }
 
     public void putWarnMessage(String localizedMessage) {
+        externalContext().getFlash().setKeepMessages(true);
         facesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, localizedMessage, localizedMessage));
     }
 
     public void putInfoMessage(String localizedMessage) {
+        externalContext().getFlash().setKeepMessages(true);
         facesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, localizedMessage, localizedMessage));
     }
 }

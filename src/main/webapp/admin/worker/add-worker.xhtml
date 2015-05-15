@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition template="/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form id="form">
+            <h1>Tutaj możesz dodać nowego pracownika</h1>
+            <p:separator/>
+            <p:fieldset legend="Dodaj nowego pracownika">
+                <p:panelGrid columns="2">
+                    <h:outputText value="Imię i nazwisko: "/>
+                    <p:inputText value="#{addWorkerController.newWorker.personalData}"/>
+
+                    <h:outputText value="Adres: "/>
+                    <p:inputText value="#{addWorkerController.newWorker.address}"/>
+
+                    <h:outputText value="Telefon: "/>
+                    <p:inputMask value="#{addWorkerController.newWorker.phone}" mask="999-999-999"/>
+
+                    <h:outputText value="Email: "/>
+                    <p:inputText value="#{addWorkerController.newWorker.email}">
+                        <f:validator validatorId="OwnEmailValidator"/>
+                    </p:inputText>
+
+                    <h:outputText value="Zarobki: "/>
+                    <h:panelGrid columns="1">
+                        <p:inputText id="pay" value="#{addWorkerController.newWorker.pay}"/>
+                        <p:slider for="pay" step="100" minValue="0" maxValue="10000"/>
+                    </h:panelGrid>
+
+                    <h:outputText value="Stanowisko: "/>
+                    <p:selectOneMenu value="#{addWorkerController.newWorker.position}">
+                        <f:selectItems value="#{addWorkerController.allPositions}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Czy już pracuje: "/>
+                    <p:selectBooleanButton value="#{addWorkerController.newWorker.stillWork}"
+                                           onLabel="TAK"
+                                           offLabel="NIE"
+                                           onIcon="ui-icon-check"
+                                           offIcon="ui-icon-close"
+                                           style="width:60px"/>
+                    <h:outputText value="Data startu pracy: "/>
+                    <p:calendar value="#{addWorkerController.newWorker.startWorkDate}"
+                                pattern="yyyy-MM-dd"
+                                mask="true"
+                                effect="puff"
+                                mindate="1900-01-01"
+                                maxdate="#{addWorkerController.maxDate}"/>
+                    <h:outputText value="Data końca pracy: "/>
+                    <p:calendar value="#{addWorkerController.newWorker.endWorkDate}"
+                                pattern="yyyy-MM-dd"
+                                mask="true"
+                                effect="puff"
+                                mindate="1900-01-01"
+                                maxdate="#{addWorkerController.maxDate}"/>
+                </p:panelGrid>
+                <p:separator/>
+                <p:commandButton value="Dodaj" action="#{addWorkerController.persist}" update="@form"
+                                 icon="ui-icon-check"/>
+            </p:fieldset>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition template="/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form id="form">
+            <h1>Lista wszystkich pracowników firmy</h1>
+            <br/>
+            <p:separator/>
+            <br/>
+            <p:dataTable id="workerTable"
+                         var="worker"
+                         value="#{editWorkerController.workers}" style="text-align: center"
+                         selection="#{editWorkerController.selectedWorker}"
+                         selectionMode="single"
+                         rowKey="#{worker.id}">
+                <f:facet name="header">
+                    Tabela pracowników
+                </f:facet>
+                <p:column headerText="Imię i nazwisko">
+                    <h:outputText value="#{worker.personalData}"/>
+                </p:column>
+
+                <p:column headerText="Stanowisko">
+                    <h:outputText value="#{worker.position.viewName}"/>
+                </p:column>
+
+                <p:column headerText="Telefon">
+                    <h:outputText value="#{worker.phone}"/>
+                </p:column>
+
+                <p:column headerText="Email">
+                    <h:outputText value="#{worker.email}"/>
+                </p:column>
+
+                <p:column headerText="Nadal pracuje?">
+                    <p:graphicImage value="/resources/images/true.png"
+                                    rendered="#{worker.stillWork}"/>
+                    <p:graphicImage value="/resources/images/false.gif"
+                                    rendered="#{not worker.stillWork}"/>
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton process="workerTable" update=":form:workerDialog"
+                                     oncomplete="PF('workerDialog').show()"
+                                     icon="ui-icon-search" title="Szczegóły" value="Szczegóły">
+                    </p:commandButton>
+                    Razem #{editWorkerController.workersSize} pracowników.
+                </f:facet>
+            </p:dataTable>
+
+            <p:dialog header="Szczegóły pracownika"
+                      id="workerDialog"
+                      widgetVar="workerDialog"
+                      closable="false"
+                      showEffect="puff"
+                      hideEffect="puff"
+                      modal="true"
+                      appendTo="@(body)"
+                      resizable="false"
+                      width="400"
+                      styleClass="ring">
+                <p:fieldset legend="Pracownik">
+                    <p:panelGrid columns="2" rendered="#{not empty editWorkerController.selectedWorker}"
+                                 styleClass="ring">
+
+                        <h:outputText value="Imię i nazwisko: "/>
+                        <h:outputText value="#{editWorkerController.selectedWorker.personalData}"/>
+
+                        <h:outputText value="Adres: "/>
+                        <h:outputText value="#{editWorkerController.selectedWorker.address}"/>
+
+                        <h:outputText value="Stanowisko: "/>
+                        <h:outputText value="#{editWorkerController.selectedWorker.position.viewName}"/>
+
+                        <h:outputText value="Telefon: "
+                                      rendered="#{not empty editWorkerController.selectedWorker.phone}"/>
+                        <h:outputText value="#{editWorkerController.selectedWorker.phone}"
+                                      rendered="#{not empty editWorkerController.selectedWorker.phone}"/>
+
+                        <h:outputText value="Email: "
+                                      rendered="#{not empty editWorkerController.selectedWorker.email}"/>
+                        <h:outputText value="#{editWorkerController.selectedWorker.email}"
+                                      rendered="#{not empty editWorkerController.selectedWorker.email}"/>
+
+                        <h:outputText value="Pensja: "
+                                      rendered="#{not empty editWorkerController.selectedWorker.pay}"/>
+                        <h:outputText value="#{editWorkerController.selectedWorker.pay}"
+                                      rendered="#{not empty editWorkerController.selectedWorker.pay}"/>
+
+                        <h:outputText value="Początek pracy: "
+                                      rendered="#{not empty editWorkerController.selectedWorker.startWorkDate}"/>
+                        <h:outputText value="#{editWorkerController.selectedWorker.startWorkDate}"
+                                      rendered="#{not empty editWorkerController.selectedWorker.startWorkDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+
+                        <h:outputText value="Koniec pracy: "
+                                      rendered="#{not empty editWorkerController.selectedWorker.endWorkDate}"/>
+                        <h:outputText value="#{editWorkerController.selectedWorker.endWorkDate}"
+                                      rendered="#{not empty editWorkerController.selectedWorker.endWorkDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+
+                        <h:outputText value="Czy nadal pracuje: "/>
+                        <p:graphicImage value="/resources/images/true.png"
+                                        rendered="#{editWorkerController.selectedWorker.stillWork}"/>
+                        <p:graphicImage value="/resources/images/false.gif"
+                                        rendered="#{not editWorkerController.selectedWorker.stillWork}"/>
+                    </p:panelGrid>
+                    <p:separator/>
+                    <p:commandButton value="Zamknij" onclick="PF('workerDialog').hide();" process="@this"/>
+                </p:fieldset>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

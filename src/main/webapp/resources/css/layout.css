@@ -1,5 +1,12 @@
-.ui-layout-north { z-index:20 !important; overflow:visible !important; }
-.ui-layout-north .ui-layout-unit-content { overflow:visible !important; }
+.ui-layout-north {
+    z-index: 20 !important;
+    overflow: visible !important;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+    overflow: visible !important;
+}
+
 body {
     background-color: #ffe442;
     font-size: 10px;
@@ -7,4 +14,18 @@ body {
 
 h1 {
     font-size: 12px;
+}
+
+.ring {
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5%;
+    align-content: center;
+}
+
+.ui-datatable .ui-state-highlight {
+    background: #ffd95d !important;
+    border: 1px solid grey;
 }

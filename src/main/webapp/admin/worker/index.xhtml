@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition template="/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form id="form">
+            <h1>Siema #{securityManager.user} ta strona jest widoczna tylko dla admina</h1>
+            <p:separator/>
+
+            <p:ring id="workers"
+                    value="#{workerController.workers}"
+                    var="worker"
+                    easing="easeOutBack"
+                    style="position: relative; top: 10%;">
+                <p:outputPanel styleClass="ring" layout="block">
+                    #{worker.personalData}
+                    <br/>
+                    <p:commandButton update="form:workerDialog" icon="ui-icon-search" title="Szczegóły"
+                                     oncomplete="PF('workerDialog').show();">
+                        <f:setPropertyActionListener value="#{worker}" target="#{workerController.selectedWorker}"/>
+                    </p:commandButton>
+                </p:outputPanel>
+            </p:ring>
+
+            <p:dialog header="Szczegóły pracownika"
+                      id="workerDialog"
+                      widgetVar="workerDialog"
+                      closable="false"
+                      showEffect="puff"
+                      hideEffect="puff"
+                      modal="true"
+                      appendTo="@(body)"
+                      resizable="false"
+                      width="400"
+                      styleClass="ring">
+                <p:fieldset legend="Pracownik">
+                    <p:panelGrid columns="2" rendered="#{not empty workerController.selectedWorker}"
+                                 styleClass="ring">
+
+                        <h:outputText value="Imię i nazwisko: "/>
+                        <h:outputText value="#{workerController.selectedWorker.personalData}"/>
+
+                        <h:outputText value="Adres: "/>
+                        <h:outputText value="#{workerController.selectedWorker.address}"/>
+
+                        <h:outputText value="Stanowisko: "/>
+                        <h:outputText value="#{workerController.selectedWorker.position.viewName}"/>
+
+                        <h:outputText value="Telefon: "
+                                      rendered="#{not empty workerController.selectedWorker.phone}"/>
+                        <h:outputText value="#{workerController.selectedWorker.phone}"
+                                      rendered="#{not empty workerController.selectedWorker.phone}"/>
+
+                        <h:outputText value="Email: "
+                                      rendered="#{not empty workerController.selectedWorker.email}"/>
+                        <h:outputText value="#{workerController.selectedWorker.email}"
+                                      rendered="#{not empty workerController.selectedWorker.email}"/>
+
+                        <h:outputText value="Pensja: "
+                                      rendered="#{not empty workerController.selectedWorker.pay}"/>
+                        <h:outputText value="#{workerController.selectedWorker.pay}"
+                                      rendered="#{not empty workerController.selectedWorker.pay}"/>
+
+                        <h:outputText value="Początek pracy: "
+                                      rendered="#{not empty workerController.selectedWorker.startWorkDate}"/>
+                        <h:outputText value="#{workerController.selectedWorker.startWorkDate}"
+                                      rendered="#{not empty workerController.selectedWorker.startWorkDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+
+                        <h:outputText value="Koniec pracy: "
+                                      rendered="#{not empty workerController.selectedWorker.endWorkDate}"/>
+                        <h:outputText value="#{workerController.selectedWorker.endWorkDate}"
+                                      rendered="#{not empty workerController.selectedWorker.endWorkDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+
+                        <h:outputText value="Czy nadal pracuje: "/>
+                        <p:graphicImage value="/resources/images/true.png"
+                                        rendered="#{workerController.selectedWorker.stillWork}"/>
+                        <p:graphicImage value="/resources/images/false.gif"
+                                        rendered="#{not workerController.selectedWorker.stillWork}"/>
+                    </p:panelGrid>
+                    <p:separator/>
+                    <p:commandButton value="Zamknij" onclick="PF('workerDialog').hide();" process="@this"/>
+                </p:fieldset>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
